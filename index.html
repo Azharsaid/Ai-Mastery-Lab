@@ -1,0 +1,679 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AI Mastery Lab</title>
+  <link rel="stylesheet" href="style.css" />
+  <meta name="color-scheme" content="dark light">
+</head>
+<body>
+  <header class="topbar" role="banner">
+    <div class="topbar__left">
+      <div class="brand" title="AI Mastery Lab">
+        <div class="brand__mark" aria-hidden="true">△</div>
+        <div class="brand__text">
+          <div class="brand__title">AI Mastery Lab</div>
+          <div class="brand__sub">Offline-ready workshop playground</div>
+        </div>
+      </div>
+      <nav class="nav" aria-label="Primary">
+        <button class="nav__btn is-active" data-nav="map">Map</button>
+        <button class="nav__btn" data-nav="module1">Module 1</button>
+        <button class="nav__btn" data-nav="module2">Module 2</button>
+        <button class="nav__btn" data-nav="module3">Module 3</button>
+        <button class="nav__btn" data-nav="module4">Module 4</button>
+        <button class="nav__btn" data-nav="magic">Magic</button>
+      </nav>
+    </div>
+
+    <div class="topbar__right">
+      <button class="btn btn--ghost" id="btnDownloadPrompts" title="Download your saved prompts">
+        ⬇ Download Prompts
+      </button>
+      <button class="btn btn--ghost" id="btnTheme" title="Toggle theme">
+        🌙
+      </button>
+      <button class="btn btn--ghost" id="btnReduceMotion" title="Toggle reduced motion (also respects OS setting)">
+        🌀
+      </button>
+    </div>
+  </header>
+
+  <div class="progress" aria-hidden="true">
+    <div class="progress__bar" id="progressBar"></div>
+  </div>
+
+  <main class="app" id="app" tabindex="-1">
+    <!-- MAP -->
+    <section class="page is-active" data-page="map">
+      <div class="hero">
+        <h1>Mastering AI Use (Workshop Lab)</h1>
+        <p class="lead">
+          Learn prompt craft, image/video prompting, and rapid website building — with interactive demos that work offline.
+        </p>
+
+        <div class="hero__cta">
+          <button class="btn" data-go="module1">Start: Module 1</button>
+          <button class="btn btn--soft" data-go="module4">Jump to Media Vault</button>
+        </div>
+
+        <div class="chips">
+          <span class="chip">Mantra: <b>If it matters, specify it.</b></span>
+          <span class="chip">Tip: Copy + Add builds a team prompt library.</span>
+        </div>
+      </div>
+
+      <div class="grid grid--cards">
+        <article class="card">
+          <div class="card__top">
+            <h3>Module 1 — Prompt Mastery</h3>
+            <label class="toggle">
+              <input type="checkbox" data-done="module1">
+              <span>Done</span>
+            </label>
+          </div>
+          <p>Bad vs world‑class prompts, R.O.T.T builder, and a prompt quality meter.</p>
+          <button class="btn btn--soft" data-go="module1">Open Module 1</button>
+        </article>
+
+        <article class="card">
+          <div class="card__top">
+            <h3>Module 2 — Photos → Styles → Video Prompts</h3>
+            <label class="toggle">
+              <input type="checkbox" data-done="module2">
+              <span>Done</span>
+            </label>
+          </div>
+          <p>Style‑transfer simulation, auto prompt from Vault images, and video‑prompt builder + improver.</p>
+          <button class="btn btn--soft" data-go="module2">Open Module 2</button>
+        </article>
+
+        <article class="card">
+          <div class="card__top">
+            <h3>Module 3 — Build Websites with AI</h3>
+            <label class="toggle">
+              <input type="checkbox" data-done="module3">
+              <span>Done</span>
+            </label>
+          </div>
+          <p>Understand index/style/script, then generate a website prompt (scaffold) with acceptance criteria.</p>
+          <button class="btn btn--soft" data-go="module3">Open Module 3</button>
+        </article>
+
+        <article class="card">
+          <div class="card__top">
+            <h3>Module 4 — Media Vault + Prompt Arena</h3>
+            <label class="toggle">
+              <input type="checkbox" data-done="module4">
+              <span>Done</span>
+            </label>
+          </div>
+          <p>Photos + videos gallery and a fun “mission” prompt game with local scoreboard.</p>
+          <button class="btn btn--soft" data-go="module4">Open Module 4</button>
+        </article>
+
+        <article class="card">
+          <div class="card__top">
+            <h3>Magic — Bring It To Life</h3>
+            <label class="toggle">
+              <input type="checkbox" data-done="magic">
+              <span>Done</span>
+            </label>
+          </div>
+          <p>Team challenge: build your own version of this lab with your own modules, media, and scoring rules.</p>
+          <button class="btn btn--soft" data-go="magic">Open Magic</button>
+        </article>
+      </div>
+
+      <footer class="footer">
+        <span>Created by Azhar Said</span>
+      </footer>
+    </section>
+
+    <!-- MODULE 1 -->
+    <section class="page" data-page="module1">
+      <div class="page__head">
+        <h2>Module 1: Prompt Mastery</h2>
+        <p class="muted">Write prompts that behave like specs — clear role, objective, constraints, format, and success checks.</p>
+      </div>
+
+      <div class="grid grid--two">
+        <article class="panel">
+          <header class="panel__head">
+            <h3>1) Bad vs World‑Class Prompts (Interactive)</h3>
+            <div class="row">
+              <label class="label">Example</label>
+              <select id="exSelect" class="select">
+                <option value="meeting">Summarize meeting notes</option>
+                <option value="email">Write a professional email</option>
+                <option value="analysis">Analyze sales dashboard</option>
+              </select>
+            </div>
+          </header>
+
+          <div class="grid grid--two">
+            <div class="field">
+              <div class="field__top">
+                <label class="label">Bad Prompt</label>
+                <button class="iconbtn" data-copy-from="badPrompt">Copy</button>
+              </div>
+              <textarea id="badPrompt" class="textarea" rows="5" placeholder="Type a vague prompt..."></textarea>
+            </div>
+
+            <div class="field">
+              <div class="field__top">
+                <label class="label">World‑Class Prompt</label>
+                <button class="iconbtn" data-copy-from="goodPrompt">Copy</button>
+              </div>
+              <textarea id="goodPrompt" class="textarea" rows="5" placeholder="Type a structured prompt..."></textarea>
+
+              <div class="pillrow">
+                <span class="pill">Role</span>
+                <span class="pill">Objective</span>
+                <span class="pill">Task</span>
+                <span class="pill">Constraints</span>
+                <span class="pill">Format</span>
+                <span class="pill">Acceptance</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel__sub">
+            <div class="row row--spread">
+              <div>
+                <h4 class="mini">Simulated Result</h4>
+                <div class="muted tiny">Toggle what you’d probably get back.</div>
+              </div>
+              <div class="seg" role="tablist" aria-label="Result toggle">
+                <button class="seg__btn is-active" data-result="bad">Bad</button>
+                <button class="seg__btn" data-result="good">World‑class</button>
+              </div>
+            </div>
+            <div id="simResult" class="resultbox" aria-live="polite"></div>
+          </div>
+        </article>
+
+        <article class="panel">
+          <header class="panel__head">
+            <h3>2) R.O.T.T Prompt Builder</h3>
+            <p class="muted tiny">R=Role • O=Objective • T=Task • T=Tone/Tests</p>
+          </header>
+
+          <div class="wizard">
+            <div class="wizard__rail" aria-hidden="true">
+              <div class="wizdot is-active" data-dot="0">R</div>
+              <div class="wizdot" data-dot="1">O</div>
+              <div class="wizdot" data-dot="2">T</div>
+              <div class="wizdot" data-dot="3">T</div>
+            </div>
+
+            <div class="wizard__body">
+              <h4 id="rottTitle">R = Role</h4>
+              <p id="rottHint" class="muted tiny">Who should the AI be? (expertise + perspective)</p>
+              <label class="label" for="rottInput">Role</label>
+              <input id="rottInput" class="input" placeholder="e.g., product manager, copywriter, data analyst" />
+
+              <div class="row row--spread wizard__nav">
+                <button class="btn btn--soft" id="rottBack">Back</button>
+                <button class="btn" id="rottNext">Next</button>
+              </div>
+
+              <div class="divider"></div>
+
+              <div class="row row--spread">
+                <h4 class="mini">Your R.O.T.T Prompt</h4>
+                <div class="row">
+                  <button class="iconbtn" data-copy-from="rottOut">Copy</button>
+                  <button class="iconbtn" data-add-from="rottOut">+ Add to Session</button>
+                </div>
+              </div>
+              <textarea id="rottOut" class="textarea" rows="6" placeholder="Your generated prompt appears here..."></textarea>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="grid grid--two">
+        <article class="panel">
+          <header class="panel__head">
+            <h3>3) Quick Framework: CLEAR</h3>
+            <p class="muted tiny">Context • Limits • Examples • Audience • Response format</p>
+          </header>
+
+          <div class="grid grid--two">
+            <div class="field">
+              <label class="label">Context</label>
+              <textarea id="clearContext" class="textarea" rows="3" placeholder="Background, what’s happening, why..."></textarea>
+              <label class="label">Limits</label>
+              <textarea id="clearLimits" class="textarea" rows="3" placeholder="Max length, tone, avoid, constraints..."></textarea>
+            </div>
+            <div class="field">
+              <label class="label">Examples</label>
+              <textarea id="clearExamples" class="textarea" rows="3" placeholder="Few examples or references..."></textarea>
+              <label class="label">Audience</label>
+              <textarea id="clearAudience" class="textarea" rows="2" placeholder="Who will read/use it?"></textarea>
+              <label class="label">Response format</label>
+              <textarea id="clearFormat" class="textarea" rows="2" placeholder="Bullets, table, JSON, steps..."></textarea>
+            </div>
+          </div>
+
+          <div class="row row--spread">
+            <button class="btn" id="btnGenCLEAR">Generate Prompt</button>
+            <div class="row">
+              <button class="iconbtn" data-copy-from="clearOut">Copy</button>
+              <button class="iconbtn" data-add-from="clearOut">+ Add</button>
+            </div>
+          </div>
+          <textarea id="clearOut" class="textarea" rows="6" placeholder="Generated prompt..."></textarea>
+        </article>
+
+        <article class="panel">
+          <header class="panel__head">
+            <h3>4) Prompt Quality Meter (0–100)</h3>
+            <p class="muted tiny">Paste any prompt. Score it, see what’s missing, then auto‑improve.</p>
+          </header>
+
+          <div class="row row--spread">
+            <div class="muted tiny">Paste any prompt</div>
+            <div class="row">
+              <button class="iconbtn" id="qmPaste">⚡ Paste Example</button>
+              <button class="iconbtn" id="qmClear">✕ Clear</button>
+            </div>
+          </div>
+
+          <textarea id="qmIn" class="textarea" rows="5" placeholder="Paste your prompt here..."></textarea>
+
+          <div class="row row--spread">
+            <button class="btn" id="qmScoreBtn">Score Prompt</button>
+            <div class="score">
+              <div class="score__bar"><div class="score__fill" id="qmFill"></div></div>
+              <div class="score__num"><span id="qmScore">0</span> / 100</div>
+            </div>
+          </div>
+
+          <div class="grid grid--two">
+            <div>
+              <h4 class="mini">What’s missing / what to improve</h4>
+              <div id="qmFeedback" class="resultbox resultbox--small"></div>
+            </div>
+            <div>
+              <div class="row row--spread">
+                <h4 class="mini">Auto‑Improved Prompt</h4>
+                <div class="row">
+                  <button class="iconbtn" data-copy-from="qmOut">Copy</button>
+                  <button class="iconbtn" data-add-from="qmOut">+ Add</button>
+                </div>
+              </div>
+              <textarea id="qmOut" class="textarea" rows="5" placeholder="Improved prompt..."></textarea>
+              <button class="btn btn--soft" id="qmImproveBtn">✨ Auto‑Improve</button>
+              <div class="muted tiny" style="margin-top:.4rem">Rule: preserves intent; asks no questions; states reasonable assumptions.</div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <footer class="footer">
+        <span>Created by Azhar Said</span>
+      </footer>
+    </section>
+
+    <!-- MODULE 2 -->
+    <section class="page" data-page="module2">
+      <div class="page__head">
+        <h2>Module 2: Photos → Styles → Video Prompts</h2>
+        <p class="muted">Offline demo. We simulate “style transfer” using Canvas filters — the real superpower is the prompt.</p>
+      </div>
+
+      <div class="grid grid--two">
+        <article class="panel">
+          <header class="panel__head">
+            <h3>1) Style Transfer DEMO (Visual Simulation)</h3>
+          </header>
+
+          <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Upload image">
+            <div class="dropzone__inner">
+              <div class="dropzone__icon" aria-hidden="true">🖼️</div>
+              <div>
+                <div class="dropzone__title">Drag & drop an image here</div>
+                <div class="muted tiny">or press Enter/Space to browse (PNG/JPG)</div>
+              </div>
+              <button class="btn btn--soft" id="btnOpenVault" type="button">Use an image from the Vault</button>
+            </div>
+            <input id="fileInput" type="file" accept="image/*" hidden />
+          </div>
+
+          <div class="row row--spread" style="margin-top:.8rem">
+            <div class="seg" role="tablist" aria-label="Style preset">
+              <button class="seg__btn is-active" data-style="cinematic">Cinematic</button>
+              <button class="seg__btn" data-style="toon">Toon‑ish</button>
+              <button class="seg__btn" data-style="soft">Soft Portrait</button>
+            </div>
+
+            <div class="row">
+              <span class="muted tiny">Before/After</span>
+              <input type="range" id="beforeAfter" min="0" max="100" value="55" />
+            </div>
+          </div>
+
+          <div class="canvasWrap">
+            <canvas id="cBefore" width="1100" height="700" aria-label="Before"></canvas>
+            <canvas id="cAfter" width="1100" height="700" aria-label="After"></canvas>
+          </div>
+
+          <div class="row row--spread" style="margin-top:1rem">
+            <h4 class="mini">Generated prompt describing the photo</h4>
+            <div class="row">
+              <button class="iconbtn" data-copy-from="imgPromptOut">Copy</button>
+              <button class="iconbtn" id="btnImproveImgPrompt">✨ Improve</button>
+              <button class="iconbtn" data-add-from="imgPromptOut">+ Add</button>
+            </div>
+          </div>
+
+          <textarea id="imgPromptOut" class="textarea" rows="6" placeholder="Select an image to see its prompt..."></textarea>
+          <div class="muted tiny">Tip: keep identity, composition, and lighting cues explicit.</div>
+        </article>
+
+        <article class="panel">
+          <header class="panel__head">
+            <h3>2) Image → Video Prompt Builder</h3>
+          </header>
+
+          <div class="field">
+            <label class="label">Mode</label>
+            <select id="vidMode" class="select">
+              <option value="kenburns">Single image motion (Ken Burns)</option>
+              <option value="subtle">Subtle cinematic motion</option>
+              <option value="dynamic">Dynamic action (safe camera movement)</option>
+            </select>
+          </div>
+
+          <div class="grid grid--two">
+            <div class="field">
+              <label class="label">Duration (seconds)</label>
+              <input id="vidDuration" class="input" type="number" min="2" max="20" value="6" />
+            </div>
+            <div class="field">
+              <label class="label">Aspect ratio</label>
+              <select id="vidAR" class="select">
+                <option value="9:16">9:16 (portrait)</option>
+                <option value="16:9">16:9 (landscape)</option>
+                <option value="1:1">1:1 (square)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Mood / Style</label>
+            <input id="vidMood" class="input" placeholder="e.g., cinematic, neon rim light, natural skin tones" />
+          </div>
+
+          <div class="field">
+            <label class="label">Negative constraints (avoid)</label>
+            <textarea id="vidNeg" class="textarea" rows="3" placeholder="e.g., avoid face warping, flicker, jitter, extra limbs, text artifacts"></textarea>
+          </div>
+
+          <div class="row row--spread">
+            <button class="btn" id="btnGenVideoPrompt">Generate Video Prompt</button>
+            <div class="row">
+              <button class="iconbtn" data-copy-from="vidOut">Copy</button>
+              <button class="iconbtn" id="btnImproveVidPrompt">✨ Improve</button>
+              <button class="iconbtn" data-add-from="vidOut">+ Add</button>
+            </div>
+          </div>
+
+          <textarea id="vidOut" class="textarea" rows="7" placeholder="Video prompt appears here..."></textarea>
+
+          <div class="divider"></div>
+
+          <div class="row row--spread">
+            <button class="btn btn--soft" id="btnPlayPreview">▶ Play Preview</button>
+            <button class="btn btn--soft" id="btnExportShotlist">⬇ Export Shotlist</button>
+          </div>
+          <div id="vidPreview" class="resultbox resultbox--small"></div>
+        </article>
+      </div>
+
+      <footer class="footer">
+        <span>Created by Azhar Said</span>
+      </footer>
+    </section>
+
+    <!-- MODULE 3 -->
+    <section class="page" data-page="module3">
+      <div class="page__head">
+        <h2>Module 3: Build Websites with AI</h2>
+        <p class="muted">HTML = structure • CSS = look & feel • JS = behavior. Ask AI for a scaffold, then iterate with constraints.</p>
+      </div>
+
+      <div class="grid grid--two">
+        <article class="panel">
+          <header class="panel__head">
+            <h3>Interactive Diagram</h3>
+            <p class="muted tiny">Click a file to see what it controls + annotated snippets.</p>
+          </header>
+
+          <div class="pillrow">
+            <button class="pillbtn is-active" data-diag="html">index.html</button>
+            <button class="pillbtn" data-diag="css">style.css</button>
+            <button class="pillbtn" data-diag="js">script.js</button>
+          </div>
+
+          <div class="diagram">
+            <div class="diagram__top">
+              <div class="diagcard is-active" data-diagcard="html">
+                <div class="diagcard__title">Structure</div>
+                <div class="muted tiny">HTML</div>
+              </div>
+              <div class="diagcard" data-diagcard="css">
+                <div class="diagcard__title">Look & Feel</div>
+                <div class="muted tiny">CSS</div>
+              </div>
+              <div class="diagcard" data-diagcard="js">
+                <div class="diagcard__title">Behavior</div>
+                <div class="muted tiny">JS</div>
+              </div>
+            </div>
+
+            <div id="diagText" class="resultbox"></div>
+          </div>
+        </article>
+
+        <article class="panel">
+          <header class="panel__head">
+            <h3>Build Flow (with AI)</h3>
+          </header>
+
+          <ol class="steps">
+            <li><b>Define goal + audience</b><span class="muted tiny">What is success? Who uses it? Constraints?</span></li>
+            <li><b>Wireframe sections</b><span class="muted tiny">A rough layout beats vague ideas.</span></li>
+            <li><b>Ask AI for a scaffold</b><span class="muted tiny">Request file outputs and structure.</span></li>
+            <li><b>Iterate with constraints + acceptance criteria</b><span class="muted tiny">Make quality measurable.</span></li>
+            <li><b>Test, refactor, polish</b><span class="muted tiny">Accessibility + performance + clarity.</span></li>
+          </ol>
+
+          <div class="divider"></div>
+
+          <h4 class="mini">Prompt to Generate a Website</h4>
+          <div class="field">
+            <label class="label">Goal</label>
+            <input id="webGoal" class="input" placeholder="e.g., internal workshop microsite for prompt training" />
+          </div>
+          <div class="grid grid--two">
+            <div class="field">
+              <label class="label">Must-have sections</label>
+              <textarea id="webSections" class="textarea" rows="4" placeholder="e.g., navbar, modules, gallery, score meter..."></textarea>
+            </div>
+            <div class="field">
+              <label class="label">Acceptance criteria</label>
+              <textarea id="webAC" class="textarea" rows="4" placeholder="Offline-ready, keyboard accessible, buttons work, no external libs..."></textarea>
+            </div>
+          </div>
+
+          <div class="row row--spread">
+            <button class="btn" id="btnGenWebPrompt">Generate Website Prompt</button>
+            <div class="row">
+              <button class="iconbtn" data-copy-from="webOut">Copy</button>
+              <button class="iconbtn" data-add-from="webOut">+ Add</button>
+            </div>
+          </div>
+          <textarea id="webOut" class="textarea" rows="7" placeholder="Website generator prompt..."></textarea>
+        </article>
+      </div>
+
+      <footer class="footer">
+        <span>Created by Azhar Said</span>
+      </footer>
+    </section>
+
+    <!-- MODULE 4 -->
+    <section class="page" data-page="module4">
+      <div class="page__head">
+        <h2>Module 4: Media Vault + Prompt Arena</h2>
+        <p class="muted">Photos/videos grid from <code>assets/Images and videos/</code>. Click any item to preview larger.</p>
+      </div>
+
+      <article class="panel">
+        <header class="panel__head">
+          <h3>Media Vault: Photos + Videos</h3>
+          <p class="muted tiny">Loads local files from <code>assets/Images and videos/</code> (expected: 1.png…28.png and 1.mp4…10.mp4).</p>
+        </header>
+
+        <div class="pillrow">
+          <button class="pillbtn is-active" data-vaulttab="photos">Photos</button>
+          <button class="pillbtn" data-vaulttab="videos">Videos</button>
+          <button class="pillbtn" data-vaulttab="prompts">Prompts</button>
+        </div>
+
+        <div id="vaultGrid" class="mediagrid" aria-live="polite"></div>
+
+        <div id="vaultPrompts" class="promptsList" hidden></div>
+      </article>
+
+      <div class="grid grid--two">
+        <article class="panel">
+          <header class="panel__head">
+            <h3>Mission Card</h3>
+          </header>
+
+          <div class="mission" id="missionBox">
+            <h4 id="missionTitle">Summarize meeting notes</h4>
+            <p id="missionDesc" class="muted">Turn raw notes into a crisp summary with decisions, actions, and deadlines.</p>
+            <div class="muted tiny">Tip: add role + constraints + output format + acceptance criteria.</div>
+          </div>
+
+          <div class="field">
+            <label class="label">Team</label>
+            <input id="teamName" class="input" placeholder="e.g., Team Alpha" />
+          </div>
+
+          <div class="field">
+            <label class="label">Submit your prompt</label>
+            <textarea id="missionIn" class="textarea" rows="6" placeholder="Write your improved prompt here..."></textarea>
+          </div>
+
+          <div class="row row--spread">
+            <button class="btn" id="btnScoreMission">Score Prompt</button>
+            <div class="row">
+              <button class="iconbtn" id="btnSeedMission">↳ Seed from Mission</button>
+              <button class="iconbtn" data-copy-from="missionIn">Copy</button>
+              <button class="iconbtn" data-add-from="missionIn">+ Add</button>
+            </div>
+          </div>
+
+          <div class="row row--spread">
+            <div class="score">
+              <div class="score__bar"><div class="score__fill" id="missionFill"></div></div>
+              <div class="score__num"><span id="missionScore">0</span> / 100</div>
+            </div>
+            <button class="btn btn--soft" id="btnNewMission">🎲 New Mission</button>
+          </div>
+
+          <div id="missionFeedback" class="resultbox resultbox--small"></div>
+        </article>
+
+        <article class="panel">
+          <header class="panel__head">
+            <h3>Local Scoreboard</h3>
+            <div class="row">
+              <span class="muted tiny">Saved locally for this browser.</span>
+              <button class="iconbtn" id="btnResetScores">🧹 Reset</button>
+            </div>
+          </header>
+
+          <div class="resultbox resultbox--small">
+            <b>Scoring tip:</b> a 90+ prompt is usually explicit about role, constraints, output format, and success checks.
+          </div>
+
+          <div id="scoreboard" class="scoreboard"></div>
+        </article>
+      </div>
+
+      <footer class="footer">
+        <span>Created by Azhar Said</span>
+      </footer>
+    </section>
+
+    <!-- MAGIC -->
+    <section class="page" data-page="magic">
+      <div class="page__head">
+        <h2>Let us bring the magic to life ✨</h2>
+        <p class="muted">Team challenge: build your own AI workshop lab — same concept, different creativity.</p>
+      </div>
+
+      <div class="grid grid--two">
+        <article class="panel">
+          <header class="panel__head">
+            <h3>Challenge idea</h3>
+          </header>
+          <p>
+            Split into teams. Each team builds a mini “AI Lab” website with:
+          </p>
+          <ul class="bullets">
+            <li>A unique module (e.g., “Medical claim reviewer”, “Sales call coach”, “Design brief generator”).</li>
+            <li>A prompt builder (any framework: R.O.T.T, CLEAR, SPEC, etc.).</li>
+            <li>A quality meter + “auto‑improve”.</li>
+            <li>A gallery page showing your own example images/videos + prompts.</li>
+            <li>A scoreboard (localStorage) that ranks prompts by quality.</li>
+          </ul>
+          <div class="resultbox resultbox--small">
+            <b>Winning condition:</b> Best UX + clearest prompts + most realistic acceptance criteria.
+          </div>
+        </article>
+
+        <article class="panel">
+          <header class="panel__head">
+            <h3>Starter prompt to build a lab</h3>
+          </header>
+          <div class="field">
+            <label class="label">Paste into ChatGPT (or your AI tool)</label>
+            <textarea id="magicPrompt" class="textarea" rows="12"></textarea>
+          </div>
+          <div class="row">
+            <button class="btn" id="btnGenMagicPrompt">Generate Starter Prompt</button>
+            <button class="btn btn--soft" data-copy-from="magicPrompt">Copy</button>
+            <button class="btn btn--soft" data-add-from="magicPrompt">+ Add</button>
+          </div>
+        </article>
+      </div>
+
+      <footer class="footer">
+        <span>Created by Azhar Said</span>
+      </footer>
+    </section>
+  </main>
+
+  <!-- MODALS -->
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="modal__backdrop" data-close="modal"></div>
+    <div class="modal__panel" role="dialog" aria-modal="true" aria-label="Preview">
+      <button class="modal__close" data-close="modal" aria-label="Close">✕</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
